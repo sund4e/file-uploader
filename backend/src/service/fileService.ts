@@ -11,9 +11,18 @@ export const uploadFile = async (file: File) => {
   if (!mimetype) {
     throw Error('invalid mime type');
   }
-  const type = mime.extension(mimetype);
-  await copyFile(filepath, getFilePath(`${newFilename}.${type}`), (err) => {
-    if (err) throw err;
-    console.log(`uploads/${newFilename}.${type}`);
-  });
+  const extension = mime.extension(mimetype);
+  if (!extension) {
+    throw Error('invalid mime type');
+  }
+
+  await copyFile(
+    filepath,
+    getFilePath(`${newFilename}.${extension}`),
+    (err) => {
+      if (err) throw err;
+      console.log(`uploads/${newFilename}.${extension}`);
+    }
+  );
+  return { name: newFilename, extension: extension };
 };
