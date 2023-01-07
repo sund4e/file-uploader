@@ -5,6 +5,7 @@ WORKDIR /usr/src/app
 COPY ["package.json", "yarn.lock", "tsconfig.json", ".env", "./"]
 
 COPY ./src ./src
+COPY ./migrations ./migrations
 
 RUN yarn install
 
