@@ -26,3 +26,13 @@ export const saveFileInfo = async (
     client.release();
   }
 };
+
+export const getFiles = async (userId: string, afterId?: string) => {
+  const query = `SELECT files.* FROM files INNER JOIN user_files ON files.id = user_files.file_id WHERE user_id = $1 ${
+    afterId ? 'AND files.id > $2 ' : ''
+  }LIMIT 10`;
+
+  const queryParams = afterId ? [userId, afterId] : [userId];
+
+  return pool.query(query, queryParams).then((result) => result.rows);
+};
