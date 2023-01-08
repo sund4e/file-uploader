@@ -19,3 +19,20 @@ export const uploadImage = (file: File) => {
     credentials: 'include',
   });
 };
+
+export type FileData = {
+  id: string;
+  name: string;
+  extension: string;
+  createdAt: string;
+};
+export const getFiles = (afterId?: string): Promise<FileData[]> => {
+  return fetch(
+    `${process.env.REACT_APP_BACKEND_URL}files${
+      afterId ? `?after_id=${afterId}` : ''
+    }`,
+    { credentials: 'include' }
+  ).then((response) => {
+    return response.json();
+  });
+};
