@@ -12,6 +12,7 @@ export const HorizontalBox = styled.div<{ border?: boolean; active?: boolean }>`
   display: flex;
   margin: ${spacing}rem;
   justify-content: center;
+  flex-wrap: wrap;
 `;
 
 export const VerticalBox = styled(HorizontalBox)`

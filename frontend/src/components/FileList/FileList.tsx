@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { FileData, getFiles } from '../../lib/api';
+import { File } from '../File/File';
+import { HorizontalBox } from '../Spacing/Box';
 
 export const FileList = () => {
   const [files, setFiles] = useState<FileData[]>([]);
@@ -39,15 +41,12 @@ export const FileList = () => {
   }, [hasMore, files, scrolledToBottom]);
 
   return (
-    <div onScroll={onScroll} ref={listInnerRef}>
-      {files.map((file) => (
-        // <Text key={file.id}>{file.name}</Text>
-        <img
-          src={`${process.env.REACT_APP_BACKEND_URL}files/${file.name}.${file.extension}`}
-          alt="filevain"
-          key={file.id}
-        ></img>
-      ))}
-    </div>
+    <>
+      <HorizontalBox onScroll={onScroll} ref={listInnerRef}>
+        {files.map((file) => (
+          <File fileData={file} />
+        ))}
+      </HorizontalBox>
+    </>
   );
 };
