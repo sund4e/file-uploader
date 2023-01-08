@@ -21,8 +21,12 @@ export const uploadFile = async (file: File) => {
     getFilePath(`${newFilename}.${extension}`),
     (err) => {
       if (err) throw err;
-      console.log(`uploads/${newFilename}.${extension}`);
     }
   );
   return { name: newFilename, extension: extension };
+};
+
+export const getFile = async (fileName: string) => {
+  const path = getFilePath(fileName);
+  return createReadStream(path);
 };

@@ -40,4 +40,15 @@ router.get('/files', async (ctx) => {
   ctx.body = await getFiles(userId, after_id);
 });
 
+router.get('/files/:fileName', async (ctx) => {
+  const { fileName } = ctx.params;
+  const mimeType = mime.lookup(fileName);
+  if (!mimeType) {
+    throw Error('invalid file extension');
+  }
+  const src = await getFile(fileName);
+  ctx.response.set('content-type', mimeType);
+  ctx.body = src;
+});
+
 export { router as fileRouter };
