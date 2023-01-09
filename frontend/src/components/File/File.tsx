@@ -68,7 +68,7 @@ export const File = ({ fileData }: { fileData: FileData }) => {
               style={{
                 height: '100%',
                 fontSize: '10rem',
-                color: colors.secondary,
+                color: colors.primary,
               }}
             />
           </HorizontalBox>
