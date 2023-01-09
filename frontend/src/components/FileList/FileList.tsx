@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { FileData } from '../../lib/api';
 import { File } from '../File/File';
 import { HorizontalBox } from '../Spacing/Box';

@@ -18,17 +18,23 @@ const getUserId = (ctx: ParameterizedContext) => {
 };
 
 router.post('/files', koaBody({ multipart: true }), async (ctx) => {
-  const file = ctx.request.files?.file;
-  if (!file) {
+  const files = ctx.request.files?.file;
+  if (!files) {
     throw Error('invalid file');
   }
-  if (Array.isArray(file)) {
-    throw Error('Only one file upload at a time allowed');
+
+  const userId = getUserId(ctx);
+  if (Array.isArray(files)) {
+    const results = await Promise.all(
+      files.map((file) => saveFile(file, userId))
+    );
+    ctx.body = { files: results };
+  } else {
+    const result = await saveFile(files, userId);
+    ctx.body = { files: [result] };
   }
 
-  const fileData = await saveFile(file, getUserId(ctx));
   ctx.status = 200;
-  ctx.body = { ...fileData };
 });
 
 router.get('/files', async (ctx) => {

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { colors, spacing } from './theme';
 import { FileUploader } from './components/FileUploader/FileUploader';
 import { FileList } from './components/FileList/FileList';
-import { useCallback, useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { FileData, getFiles } from './lib/api';
 
 const Container = styled.div`
@@ -30,13 +30,13 @@ function App() {
     fetchInProgress.current = false;
   };
 
-  const addFile = (file: FileData) => {
-    setFiles([file, ...files]);
+  const addFiles = (newFiles: FileData[]) => {
+    setFiles([...newFiles, ...files]);
   };
 
   return (
     <Container>
-      <FileUploader addFile={addFile} />
+      <FileUploader addFiles={addFiles} />
       <FileList files={files} getNextFiles={getNextFiles} />
     </Container>
   );

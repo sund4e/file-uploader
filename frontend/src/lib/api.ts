@@ -5,13 +5,15 @@ const token2 =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwOTg3NjU0MzIxIiwibmFtZSI6IlNhbXUiLCJpYXQiOjE1MTYyMzkwMjJ9.q-QG_SqU6RBFEcs438OO7ytGtDAasuat9rSJf7JAcsc';
 document.cookie = `access_token=${token}; SameSite=Strict; Secure`;
 
-export const uploadImage = (file: File) => {
+export const uploadImage = (files: FileList) => {
   if (!process.env.REACT_APP_BACKEND_URL) {
     throw Error('REACT_APP_BACKEND_URL missing from env');
   }
 
   const formData = new FormData();
-  formData.append('file', file, file.name);
+  Array.from(files).forEach((file) => {
+    formData.append('file', file, file.name);
+  });
 
   return fetch(`${process.env.REACT_APP_BACKEND_URL}files`, {
     method: 'POST',
