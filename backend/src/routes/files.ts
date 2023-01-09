@@ -26,9 +26,9 @@ router.post('/files', koaBody({ multipart: true }), async (ctx) => {
     throw Error('Only one file upload at a time allowed');
   }
 
-  const fileId = await saveFile(file, getUserId(ctx));
+  const fileData = await saveFile(file, getUserId(ctx));
   ctx.status = 200;
-  ctx.body = { fileId };
+  ctx.body = { ...fileData };
 });
 
 router.get('/files', async (ctx) => {

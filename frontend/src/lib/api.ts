@@ -17,6 +17,8 @@ export const uploadImage = (file: File) => {
     method: 'POST',
     body: formData,
     credentials: 'include',
+  }).then((response) => {
+    return response.json();
   });
 };
 

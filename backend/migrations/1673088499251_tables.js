@@ -5,7 +5,7 @@ exports.up = (pgm) => {
     id: 'id',
     name: { type: 'varchar(1000)', notNull: true },
     extension: { type: 'varchar(10)', notNull: true },
-    createdAt: {
+    created_at: {
       type: 'timestamp',
       notNull: true,
       default: pgm.func('current_timestamp'),

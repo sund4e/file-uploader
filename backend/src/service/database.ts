@@ -10,7 +10,7 @@ export const saveFileInfo = async (
   try {
     await client.query('BEGIN');
     const fileQuery =
-      'INSERT INTO files(name, extension) VALUES($1, $2) RETURNING id';
+      'INSERT INTO files(name, extension) VALUES($1, $2) RETURNING *';
     const result = await client.query(fileQuery, [fileName, fileExtension]);
 
     const userQuery =
@@ -18,7 +18,7 @@ export const saveFileInfo = async (
     await client.query(userQuery, [userId, result.rows[0].id, true]);
 
     await client.query('COMMIT');
-    return result.rows[0].id as string;
+    return result.rows[0];
   } catch (e) {
     await client.query('ROLLBACK');
     throw e;
@@ -28,9 +28,12 @@ export const saveFileInfo = async (
 };
 
 export const getFiles = async (userId: string, afterId?: string) => {
-  const query = `SELECT files.* FROM files INNER JOIN user_files ON files.id = user_files.file_id WHERE user_id = $1 ${
-    afterId ? 'AND files.id > $2 ' : ''
-  }LIMIT 10`;
+  const query = `
+  SELECT files.* FROM files 
+  INNER JOIN user_files ON files.id = user_files.file_id
+  WHERE user_id = $1 ${afterId ? 'AND files.id < $2 ' : ''}
+  ORDER BY files.id DESC
+  LIMIT 10`;
 
   const queryParams = afterId ? [userId, afterId] : [userId];
 

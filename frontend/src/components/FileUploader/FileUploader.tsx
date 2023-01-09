@@ -2,19 +2,24 @@ import { ChangeEvent, memo, useCallback, useRef, useState } from 'react';
 import { HorizontalBox, VerticalBox } from '../Spacing/Box';
 import { VerticalSpace } from '../Spacing/Space';
 import { BoldText, SmallText } from '../Text/Text';
-import { uploadImage } from '../../lib/api';
+import { FileData, uploadImage } from '../../lib/api';
 
-export const FileUploader = memo(() => {
+export const FileUploader = ({
+  addFile,
+}: {
+  addFile: (fileData: FileData) => void;
+}) => {
   const [active, setActive] = useState(false);
   const input = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files?.length) {
-        await uploadImage(e.target.files[0]);
+        const fileData = await uploadImage(e.target.files[0]);
+        addFile(fileData);
       }
     },
-    []
+    [addFile]
   );
 
   const onClick = useCallback(() => {
@@ -42,4 +47,4 @@ export const FileUploader = memo(() => {
       </VerticalBox>
     </HorizontalBox>
   );
-});
+};
