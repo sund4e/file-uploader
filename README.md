@@ -2,7 +2,7 @@
 
 `yarn start` in frontend folder
 
-`docker-compose up` in backend folder
+`docker-compose build` & `docker-compose up` in backend folder
 
 ## Authentication
 
